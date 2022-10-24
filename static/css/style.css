@@ -1,0 +1,40 @@
+
+#map {
+    width: 100%;
+    margin: 0;
+    position: fixed;
+    height: calc(100vh - 57px);
+}
+
+.leaflet-popup-content-wrapper {
+    padding: 0;
+    overflow: hidden;
+}
+.leaflet-popup-content-wrapper .leaflet-popup-content {
+    margin: 0;
+}
+.leaflet-popup-content-wrapper h4 {
+    padding: 15px;
+    background: #055d5c;
+    color: #fff;
+    font-size: 16px;
+}
+.leaflet-popup-content-wrapper p {
+    padding: 0 16px;
+    font-size: 14px;
+    margin-bottom: 14px;
+    font-weight: bold;
+}
+.leaflet-popup-content-wrapper .leaflet-popup-content .phone-number {
+    padding: 0 16px 16px;
+}
+.leaflet-popup-content-wrapper .leaflet-popup-content .phone-number a {
+    color: #055d5c;
+    font-size: 14px;
+}
+
+.leaflet-popup-content-wrapper .leaflet-popup-content .coordinates p {
+    color: grey;
+    letter-spacing: 1px;
+    font-size: 15px;
+}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static crispy_forms_tags %}
+{% block title %}Registration{% endblock title %}
+
+
+{% block javascript %}
+
+{% endblock javascript %}
+
+{% block content %}
+    <div class="cover">
+        <div class="container ">
+            <div class="row mt-5 pt-3">
+                <div class="col-md-5 offset-md-6">
+                    <div class="card my-3 shadow">
+                        <div class="card-body">
+                            <h4 class="h3 mb-3 text-center font-weight-bold">Account Registration</h4>
+                            <hr>
+                            <form class="registration_form" method="POST" autocomplete="off">
+                                {% csrf_token %}
+                                {{ registration_form |crispy }}
+                                <input class="btn btn-primary btn-block" type="submit" value="Sign Up">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+

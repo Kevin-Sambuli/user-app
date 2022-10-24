@@ -1,0 +1,71 @@
+<html>
+<head>
+    {% load leaflet_tags %}
+    {% leaflet_js plugins="ALL" %}
+    {% leaflet_css plugins="ALL" %}
+
+    <style>
+        /*.leaflet-container { height: 80%; width: 90%; padding-left: 0.5%; padding-right: 0.5%}*/
+        .leaflet-container { /* all maps */
+            width: 800px;
+            height: 500px;
+        }
+
+        #specialbigmap {
+            height: 800px;
+        }
+
+        /* Resize the "display_raw" textbox */
+        .django-leaflet-raw-textarea {
+            width: 100%;
+        }
+    </style>
+
+    <script>
+        var dataurl = '{% url "allParcels" %}';
+
+        window.addEventListener("map:init", function (event) {
+            var map = event.detail.map;
+            // Download GeoJSON data with Ajax
+            fetch(dataurl)
+                .then(function (resp) {
+                    if (!resp.ok) {
+                          throw new Error(`HTTP error: ${resp.status}`);
+                        }
+                    return resp.json();
+                })
+                .then(function (data)
+                 {
+                   L.geoJson(data,
+                        {
+                             onEachFeature: function onEachFeature(feature, layer)
+                            {
+                                layer.bindPopup
+                                (
+                                    '<h3 style="align-content: center">Parcel Details</h3>' +
+                                    '<p>Parcel ID: ' + feature.properties.gid + '</p> ' +
+                                    // '<p>Owner: ' + feature.properties.owner + '</p> ' +
+                                    '<p>Parcel Number: ' + feature.properties.lrnumber + '</p> ' +
+                                    '<p>Plot Number: ' + feature.properties.plotno + '</p> ' +
+                                    '<p>Area: ' + feature.properties.areah + ' Ha</p>' +
+                                    '<p>Perimeter: ' + feature.properties.perm + ' M</p>'
+                                ).openPopup();
+                            },
+                        }).addTo(map);
+                }); //.catch((error) => console.log(error));
+        });
+    </script>
+
+</head>
+<body style="align-content: center">
+    <h1>Ardhi Land Parcels</h1>
+    {% leaflet_map "main" %}
+    <br>
+    <hr>
+    <div style="padding-left: 10px">
+        <p style="font-weight: bold; font-size: 14px;">
+            Click to return to the <a href=" {% url 'login' %}" style="font-weight: bold">Login</a>
+        </p>
+    </div>
+</body>
+</html>

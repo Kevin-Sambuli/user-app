@@ -1,0 +1,8 @@
+Dependencies:
+Geodjango Dependencies (Geos,
+GDAL, and PROJ4)
+Spatial Database.
+psycopg2-binary
+Python.
+Django(Geodjango).
+Python Leaflet package.

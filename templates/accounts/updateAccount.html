@@ -1,0 +1,37 @@
+<!-- templates/registration/login.html -->
+{% extends 'base.html' %}
+{% block title %}Log In{% endblock title %}
+{% load crispy_forms_tags  crispy_forms_filters %}
+{% load static %}
+
+{% block stylesheet %}
+
+{% endblock %}
+
+
+{% block content %}
+<div class="cover">
+    <div class="container">
+        <div class="row mt-5 pt-3">
+            <div class="col-md-5 offset-md-6">
+                <div class="card my-3 shadow">
+                    <div class="card-body">
+                        <h4>Login Page</h4>
+                        <hr>
+                        <form class="login-form" method="POST" autocomplete="off">
+                            {% csrf_token %}
+                            {{ login_form|crispy }}
+                            <input class="btn btn-primary btn-block" type="submit" value="Login">
+                        </form>
+                        <hr>
+                        <hr>
+                        <div class="text-center">
+                            <a class="btn btn-success" href="{% url 'register' %}">Create An Account</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
