@@ -26,11 +26,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         
-    - name: Linting using flake8
-      run: |
-        pip install flake8
-        flake8
-        
     - name: running coverage report
       run: |
         pip install coverage
