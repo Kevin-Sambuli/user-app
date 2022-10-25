@@ -1,15 +1,21 @@
 var map;
 
 const basemaps = {
-            "OpenStreetMaps": L.tileLayer(
-                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                {
-                    minZoom: 2,
-                    maxZoom: 19,
-                    id: "osm.streets"
-                }
-            ),
-        };
+    "OpenStreetMaps": L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            minZoom: 2,
+            maxZoom: 19,
+            id: "osm.streets"
+        }
+    ),
+    "Dark": L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+        {maxZoom: 20}
+    ),
+    "OpenTopoMap": L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+        {maxZoom: 17}
+    ),
+};
 
 
 // Map Options
@@ -19,7 +25,7 @@ var mapOptions = {
     center: [-1.22488, 36.827164],
     minZoom: 6.2,
     zoom: 6.2,
-    layers: [basemaps.OpenStreetMaps],
+    layers: [basemaps.Dark],
 };
 
 

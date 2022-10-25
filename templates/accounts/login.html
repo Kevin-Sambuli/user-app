@@ -5,37 +5,65 @@
 {% load static %}
 
 {% block stylesheet %}
+    <style>
+
+         .card{
+            border-radius: 40px;
+            background: ghostwhite;
+        }
+         input[type=text] {
+            border: none;
+            border-bottom: 2px solid cornflowerblue;
+             border-radius: 50px;
+        }
+        input[type=password] {
+            border: none;
+            border-bottom: 2px solid cornflowerblue;
+            border-radius: 50px;
+        }
+        input[type=submit] {
+
+            border-radius: 50px;
+            border-bottom: 2px solid cornflowerblue;
+        }
+
+        .control-group{
+            padding-bottom: 10px;
+        }
+    </style>
 
 {% endblock %}
 
 
 {% block content %}
-<div class="cover">
-    <div class="container">
-        <div class="row mt-5 pt-3">
-            <div class="col-md-5 offset-md-6">
-                <div class="card my-3 shadow">
-                    <div class="card-body">
-                        <h4>Login Page</h4>
-                        <hr>
-                        <form class="login-form" method="POST" autocomplete="off">
-                            {% csrf_token %}
-                            {{ login_form|crispy }}
-                            <input class="btn btn-primary btn-block" type="submit" value="Login">
-                        </form>
-                        <hr>
-                        <div class="text-center my-3">
-                            <a href="{% url 'password_reset' %}">Forget Password</a>
-                        </div>
-                        <hr>
-                        <div class="text-center">
-                            <a class="btn btn-success" href="{% url 'register' %}">Create An Account</a>
+    <div class="cover">
+        <div class="container">
+            <div class="row mt-5 pt-3">
+                <div class="col-md-5 offset-md-6">
+                    <div class="card my-3 shadow">
+                        <div class="card-body">
+                            <h4>Login Page</h4>
+                            <hr>
+                            <div class="form-data">
+                                <form class="login-form" method="POST" autocomplete="off">
+                                    {% csrf_token %}
+                                    {{ login_form|crispy }}
+                                    <input class="btn btn-primary btn-block" type="submit" value="Login">
+                                </form>
+                            </div>
+                            <hr>
+                            <div class="text-center my-3">
+                                <a href="{% url 'password_reset' %}">Forget Password</a>
+                            </div>
+                            <hr>
+                            <div class="text-center">
+                                <a class="btn btn-success" href="{% url 'register' %}">Create An Account</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
 

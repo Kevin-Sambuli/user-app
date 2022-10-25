@@ -15,7 +15,7 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.js"></script>
 
-    <title> {% block title %} {% endblock %} </title>
+    <title> {% block title %}User Map{% endblock %} </title>
 
     {% block stylesheet %} {% endblock stylesheet %}
 
@@ -26,7 +26,6 @@
 <section id="nav-bar">
     {% include 'snippets/header.html' %}
 </section>
-{#<section class="container-fluid">#}
 <section>
     {% block content %}
     {% endblock content %}

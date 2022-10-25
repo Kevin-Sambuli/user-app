@@ -2,6 +2,39 @@
 {% load static crispy_forms_tags %}
 {% block title %}Registration{% endblock title %}
 
+{% block stylesheet %}
+    <style>
+        .control-group {
+            padding-bottom: 15px;
+        }
+
+        .card {
+            border-radius: 40px;
+            background: ghostwhite;
+        }
+
+        input[type=text] {
+            border: none;
+        {#background-color: transparent;#} border-radius: 50px;
+            border-bottom: 2px solid cornflowerblue;
+        }
+
+        input[type=password] {
+            border: none;
+            border-radius: 50px;
+            border-bottom: 2px solid cornflowerblue;
+        }
+
+        input[type=submit] {
+            border-radius: 50px;
+            border-bottom: 2px solid cornflowerblue;
+            text-decoration: none;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+
+{% endblock %}
 
 {% block javascript %}
 

@@ -4,15 +4,19 @@ from django.contrib.auth.models import BaseUserManager
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
-    def create_user(self, email, username, first_name, last_name, password=None):
+    def create_user(self, email, username, first_name, last_name, location, address, phone, password=None):
         if not email:
-            raise ValueError('Please provide a valid email')
+            raise ValueError("Please provide a valid email")
         if not username:
-            raise ValueError('Please provide a username')
+            raise ValueError("Please provide a username")
         if not first_name:
-            raise ValueError('Provide your first Name')
+            raise ValueError("Provide your first Name")
         if not last_name:
-            raise ValueError('Provide your last Name')
+            raise ValueError("Provide your last Name")
+        if not address:
+            raise ValueError(" Please provide your home address")
+        if not phone:
+            raise ValueError("Please provide your telephone number")
 
         email = self.normalize_email(email)
         email = email.lower()
@@ -21,7 +25,10 @@ class UserManager(BaseUserManager):
             email=email,
             username=username,
             first_name=first_name,
-            last_name=last_name
+            last_name=last_name,
+            location=location,
+            phone=phone,
+            address=address,
         )
 
         user.set_password(password)
@@ -43,5 +50,3 @@ class UserManager(BaseUserManager):
         user.is_superuser = True
         user.save(using=self._db)
         return user
-
-

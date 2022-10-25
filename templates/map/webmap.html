@@ -5,14 +5,6 @@
 {% block title %}WebMap{% endblock title %}
 
 {% block stylesheet %}
-
-    {#    <style>#}
-    {#        #map {#}
-    {#            width: 100%;#}
-    {#            position: relative;#}
-    {#            height: calc(100vh - 57px);#}
-    {#        }#}
-    {#    </style>#}
     <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
 {% endblock stylesheet %}
 
@@ -33,17 +25,15 @@
     <script>
         var users = new L.featureGroup();
         var geojsonLayer;
-        var user = [];
-
 
         function makePopupContent(profile) {
-                        return ` <div class='userPopup'>
+            return ` <div class='userPopup'>
                                     <h4>User Information</h4>
                                     <div class='userData'>
-                                        <p>Name : ${profile.properties.first_name} ${profile.properties.last_name}</p>
+                                        <p> Name : ${profile.properties.first_name} ${profile.properties.last_name}</p>
                                         <p> Username: ${profile.properties.username}</p>
-                                        <p>Email: ${profile.properties.email}</p>
-                                        <p>Address: ${profile.properties.address}</p>
+                                        <p> Email: ${profile.properties.email}</p>
+                                        <p> Address: ${profile.properties.address}</p>
                                     </div>
 
                                     <div class="phone-number">
@@ -64,6 +54,7 @@
         };
 
         $.getJSON("{% url 'user_profiles' %}", function (data) {
+            console.log(data)
             geojsonLayer = new L.geoJSON(data, {
                 onEachFeature: onEachFeature
             }).addTo(users)
