@@ -16,8 +16,8 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.views import View
 
-from .forms import AccountUpdateForm, LoginForm, RegisterForm
-from .models import Account
+from accounts.forms import AccountUpdateForm, LoginForm, RegisterForm
+from accounts.models import Account
 
 
 class ActivateAccount(View):
@@ -131,7 +131,13 @@ def profile_view(request, *args, **kwargs):
 
 
 def login_view(request):
-    context = {}
+    context ={}
+    from django.contrib.gis.geos import Point
+    from geopy.geocoders import Nominatim
+    geolocator = Nominatim(user_agent="location")
+    g = geolocator.geocode('kitengela')
+    location = Point(g.longitude, g.latitude)
+    print(location)
 
     user = request.user
     if user.is_authenticated:
@@ -261,8 +267,13 @@ def logout_view(request):
 
 def webMap(request):
     context = {}
+    users = Account.objects.all().count()
+    print(users)
+    context['data'] = users
     return render(request, "map/webmap.html", context)
 
 
 def userProfiles(request):
+
+    # return HttpResponse(users, content_type="json")
     return HttpResponse(Account.getUserData(), content_type="json")

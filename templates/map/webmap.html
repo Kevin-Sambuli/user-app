@@ -47,14 +47,16 @@
                                         </p>
                                     </div>
                                 </div> `;
-        }
+        };
+
 
         const onEachFeature = (feature, layer) => {
             layer.bindPopup(makePopupContent(feature), {closeButton: true, offset: L.point(0, -8)});
         };
 
+
         $.getJSON("{% url 'user_profiles' %}", function (data) {
-            console.log(data)
+            info.update(`Total = ${data.features.length}`);
             geojsonLayer = new L.geoJSON(data, {
                 onEachFeature: onEachFeature
             }).addTo(users)
