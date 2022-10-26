@@ -81,7 +81,7 @@ Open your browser and go to http://127.0.0.1:8000, you will be greeted with a we
 2. Click the link to activate your account
 3. Your account will be activated and You'll be redirected to the home page as an authenticated user
 
-#Access Restriction to Objects
+# Access Restriction to Objects
 
 ## A user can have access right to his or her own information
 
