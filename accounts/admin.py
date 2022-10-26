@@ -33,31 +33,35 @@ class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
 
     def get_model_objects(self, request, action=None, klass=None):
         opts = self.opts
-        actions = [action] if action else ['view','edit','delete']
+        actions = [action] if action else ["view", "edit", "delete"]
         klass = klass if klass else opts.model
         model_name = klass._meta.model_name
-        return get_objects_for_user(user=request.user, perms=[f'{perm}_{model_name}' for perm in actions], klass=klass, any_perm=True)
+        return get_objects_for_user(
+            user=request.user,
+            perms=[f"{perm}_{model_name}" for perm in actions],
+            klass=klass,
+            any_perm=True,
+        )
 
     def has_permission(self, request, obj, action):
         opts = self.opts
-        code_name = f'{action}_{opts.model_name}'
+        code_name = f"{action}_{opts.model_name}"
         if obj:
-            return request.user.has_perm(f'{opts.app_label}.{code_name}', obj)
+            return request.user.has_perm(f"{opts.app_label}.{code_name}", obj)
         else:
             return self.get_model_objects(request).exists()
 
     def has_view_permission(self, request, obj=None):
         # the method checks if the user has view permission on object
-        return self.has_permission(request, obj, 'view')
+        return self.has_permission(request, obj, "view")
 
     def has_change_permission(self, request, obj=None):
         # the method checks if the user has change permission on object
-        return self.has_permission(request, obj, 'change')
+        return self.has_permission(request, obj, "change")
 
     def has_delete_permission(self, request, obj=None):
         # the method checks if the user has delete permission on object
-        return self.has_permission(request, obj, 'delete')
-
+        return self.has_permission(request, obj, "delete")
 
     def activate_users(self, request, queryset):
         cnt = queryset.filter(is_active=False).update(is_active=True)
@@ -70,7 +74,6 @@ class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
         if not request.user.has_perm("auth.change_user"):
             del actions["activate_users"]
         return actions
-
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)

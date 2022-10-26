@@ -34,7 +34,7 @@ class ActivateAccount(View):
             user.is_active = True
             user.save()
             # return redirect('login')
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            login(request, user, backend="django.contrib.auth.backends.ModelBackend")
 
             messages.success(
                 request,
@@ -78,7 +78,7 @@ def registration_view(request):
 
             user.save()
             staff_group.user_set.add(user)
-            assign_perm('view_account', user, user)
+            assign_perm("view_account", user, user)
 
             current_site = get_current_site(request)
             subject = "Activate Your MySite Account"
