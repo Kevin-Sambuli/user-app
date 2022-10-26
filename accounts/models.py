@@ -43,7 +43,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
     # permissions
     is_admin = models.BooleanField("admin", default=False)
     is_active = models.BooleanField("active", default=False)
-    is_staff = models.BooleanField("staff", default=False)
+    is_staff = models.BooleanField("staff", default=True)
     is_superuser = models.BooleanField("superuser", default=False)
 
     # unique parameter that will be used to login in the user
@@ -107,9 +107,9 @@ class Account(AbstractBaseUser, PermissionsMixin):
         return serialize("geojson", cls.objects.all())
 
 
-@receiver(pre_save, sender=Account)
-def create_location(sender, instance, *args, **kwargs):
-    geolocator = Nominatim(user_agent="location")
-    if instance.address is not None:
-        g = geolocator.geocode(instance.address)
-        instance.location = Point(g.longitude, g.latitude)
+# @receiver(pre_save, sender=Account)
+# def create_location(sender, instance, *args, **kwargs):
+#     geolocator = Nominatim(user_agent="location")
+#     if instance.address is not None:
+#         g = geolocator.geocode(instance.address)
+#         instance.location = Point(g.longitude, g.latitude)

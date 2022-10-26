@@ -4,14 +4,17 @@ from django.contrib.auth.forms import UserCreationForm
 
 from accounts.models import Account
 
+from django.contrib.gis import forms as geoform
+
 
 class RegisterForm(UserCreationForm):
-    first_name = forms.CharField(label="", max_length=100, widget=forms.TextInput())
-    last_name = forms.CharField(label="", max_length=100, widget=forms.TextInput())
-    username = forms.CharField(label="", max_length=100, widget=forms.TextInput())
-    address = forms.CharField(label="", max_length=50, widget=forms.TextInput())
+    first_name = forms.CharField(label="", max_length=30, widget=forms.TextInput())
+    last_name = forms.CharField(label="", max_length=30, widget=forms.TextInput())
+    username = forms.CharField(label="", max_length=30, widget=forms.TextInput())
+    address = forms.CharField(label="", max_length=30, widget=forms.TextInput())
     email = forms.EmailField(label="", max_length=100, widget=forms.TextInput())
     phone = forms.CharField(label="", max_length=15, widget=forms.TextInput())
+    # location = geoform.PointField(widget=geoform.OSMWidget(attrs={'map_width': 500, 'map_height': 500}))
     password1 = forms.CharField(label="", widget=forms.PasswordInput())
     password2 = forms.CharField(label="", widget=forms.PasswordInput())
 
@@ -85,6 +88,7 @@ class RegisterForm(UserCreationForm):
 class LoginForm(forms.ModelForm):
     email = forms.EmailField(label="", max_length=100, widget=forms.TextInput())
     password = forms.CharField(label="", widget=forms.PasswordInput)
+
     # remember = forms.BooleanField(label="Remember Me", required=False)
 
     class Meta:
