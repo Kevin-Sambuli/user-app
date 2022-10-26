@@ -2,7 +2,8 @@
 This is a simple Django application powered also by Geodjango, The Application contains full user authentication
 and display registered users on a leaflet map as point data
 
-![Screenshot (409)](https://user-images.githubusercontent.com/43718849/197771109-51a2f967-3d50-4e07-bb36-5cb97ce2e1dd.png)
+![Screenshot (410)](https://user-images.githubusercontent.com/43718849/198025585-7b90673c-f946-4eb5-862c-92eb3417b25e.png)
+
 
 Main features
     Separated dev and production settings
@@ -80,13 +81,10 @@ Open your browser and go to http://127.0.0.1:8000, you will be greeted with a we
 2. Click the link to activate your account
 3. Your account will be activated and You'll be redirected to the home page as an authenticated user
 
-## Account settings
-👋 This simple map is Built with GeoDjango,Docker,NGINX,React and Leaflet.
 
 
-
-## Production
-### If you are NOT using Makefile
+## Upcoming feature Production
+### Using Docker to containerize the application
 ```
 cd user-app
 run the command: docker-compose --build -d --remove-orphans
