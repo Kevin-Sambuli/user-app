@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import (authenticate, login, logout,
-                                 update_session_auth_hash)
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm
 from django.contrib.auth.tokens import default_token_generator
@@ -16,8 +15,8 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.views import View
 
-from .forms import AccountUpdateForm, LoginForm, RegisterForm
-from .models import Account
+from accounts.forms import AccountUpdateForm, LoginForm, RegisterForm
+from accounts.models import Account
 
 
 class ActivateAccount(View):
@@ -261,8 +260,13 @@ def logout_view(request):
 
 def webMap(request):
     context = {}
+    users = Account.objects.all().count()
+    print(users)
+    context["data"] = users
     return render(request, "map/webmap.html", context)
 
 
 def userProfiles(request):
+
+    # return HttpResponse(users, content_type="json")
     return HttpResponse(Account.getUserData(), content_type="json")

@@ -23,9 +23,9 @@ var mapOptions = {
     zoomControl: false,
     attributionControl: false,
     center: [-1.22488, 36.827164],
-    minZoom: 6.2,
+    // minZoom: 6.2,
     zoom: 6.2,
-    layers: [basemaps.Dark],
+    layers: [basemaps.OpenStreetMaps],
 };
 
 
@@ -47,6 +47,25 @@ L.control.zoom({position: "topleft"}).addTo(map);
 var attrOptions = {
     prefix: 'Made by Kevin Sambuli'
 };
+
+// control that shows state info on hover
+var info = L.control({
+    position:'topleft'
+});
+
+info.onAdd = function (mapdd) {
+		this._div = L.DomUtil.create('div', 'info');
+		this.update();
+		return this._div;
+};
+
+info.update = function (props) {
+    this._div.innerHTML = '<h4>Number of Users</h4>' +  (props ?
+        '<b>' + props : 'No Users');
+};
+
+info.addTo(map);
+
 
 
 var attr = L.control.attribution(attrOptions).addTo(map);

@@ -6,7 +6,8 @@ from accounts.forms import AccountUpdateForm, RegisterForm
 from accounts.models import Account
 
 
-class AccountAdmin(UserAdmin, OSMGeoAdmin):
+# class AccountAdmin(UserAdmin, OSMGeoAdmin):
+class AccountAdmin(OSMGeoAdmin):
     ordering = ["email"]
     add_form = RegisterForm
     form = AccountUpdateForm
@@ -43,7 +44,8 @@ class AccountAdmin(UserAdmin, OSMGeoAdmin):
                 "is_active",
                 "is_staff",
                 "is_superuser",
-                "groups" "user_permissions",
+                "groups",
+                "user_permissions",
             }
 
         for f in disabled_fields:
@@ -125,10 +127,24 @@ class AccountAdmin(UserAdmin, OSMGeoAdmin):
         ),
     )
 
-    def active(self, obj):
-        return obj.is_active == 1
 
-    active.boolean = True
+# class ReadOnlyAdminMixin:
+
+#     def has_add_permission(self, request):
+#         return False
+
+#     def has_change_permission(self, request, obj=None):
+
+#         if request.user.has_perm('inventory.change_product'):
+#             return True
+#         else:
+#             return False
+
+#     def has_delete_permission(self, request, obj=None):
+#         return False
+
+#     def has_view_permission(self, request, obj=None):
+#         return True
 
 
 admin.site.register(Account, AccountAdmin)
