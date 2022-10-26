@@ -2,7 +2,7 @@
 This is a simple Django application powered also by Geodjango, The Application contains full user authentication
 and display registered users on a leaflet map as point data
 
-![Screenshot (410)](https://user-images.githubusercontent.com/43718849/198025585-7b90673c-f946-4eb5-862c-92eb3417b25e.png)
+![Screenshot (414)](https://user-images.githubusercontent.com/43718849/198046412-03b45163-669b-4912-851f-7d7b4cf8eeb8.png)
 
 
 Main features
@@ -81,6 +81,15 @@ Open your browser and go to http://127.0.0.1:8000, you will be greeted with a we
 2. Click the link to activate your account
 3. Your account will be activated and You'll be redirected to the home page as an authenticated user
 
+#Access Restriction to Objects
+
+## A user can have access right to his or her own information
+
+![Screenshot (413)](https://user-images.githubusercontent.com/43718849/198046814-c06032ad-84fe-407e-ae77-61d34294d748.png)
+
+## A user restricted from viewing other peoples information
+
+![Screenshot (412)](https://user-images.githubusercontent.com/43718849/198047252-c6b61c65-a898-4094-b2fe-4a4de7684cd9.png)
 
 
 ## Upcoming feature Production
