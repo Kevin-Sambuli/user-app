@@ -2,8 +2,7 @@
 This is a simple Django application powered also by Geodjango, The Application contains full user authentication
 and display registered users on a leaflet map as point data
 
-![Screenshot (408)](https://user-images.githubusercontent.com/43718849/197735816-3bcb7b38-9131-4cb6-946e-306fb4b7d566.png)
-
+![Screenshot (409)](https://user-images.githubusercontent.com/43718849/197771109-51a2f967-3d50-4e07-bb36-5cb97ce2e1dd.png)
 
 Main features
     Separated dev and production settings
