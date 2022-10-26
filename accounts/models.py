@@ -107,9 +107,10 @@ class Account(AbstractBaseUser, PermissionsMixin):
         return serialize("geojson", cls.objects.all())
 
 
-# @receiver(pre_save, sender=Account)
-# def create_location(sender, instance, *args, **kwargs):
-#     geolocator = Nominatim(user_agent="location")
-#     if instance.address is not None:
-#         g = geolocator.geocode(instance.address)
-#         instance.location = Point(g.longitude, g.latitude)
+@receiver(pre_save, sender=Account)
+def create_location(sender, instance, *args, **kwargs):
+    geolocator = Nominatim(user_agent="location")
+    if instance.address is not None:
+        g = geolocator.geocode(instance.address)
+        instance.location = Point(g.longitude, g.latitude)
+
