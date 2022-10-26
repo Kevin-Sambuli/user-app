@@ -5,9 +5,12 @@ from django.contrib.gis.admin import OSMGeoAdmin
 from accounts.forms import AccountUpdateForm, RegisterForm
 from accounts.models import Account
 
+from guardian.admin import GuardedModelAdmin
+from guardian.shortcuts import get_objects_for_user
+
 
 # class AccountAdmin(UserAdmin, OSMGeoAdmin):
-class AccountAdmin(OSMGeoAdmin):
+class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
     ordering = ["email"]
     add_form = RegisterForm
     form = AccountUpdateForm
@@ -16,6 +19,45 @@ class AccountAdmin(OSMGeoAdmin):
     actions = [
         "activate_users",
     ]
+
+    def has_module_permission(self, request):
+        if super().has_module_permission(request):
+            return True
+        return self.get_model_objects(request).exists()
+
+    def get_queryset(self, request):
+        if request.user.is_superuser:
+            return super().get_queryset(request)
+        data = self.get_model_objects(request)
+        return data
+
+    def get_model_objects(self, request, action=None, klass=None):
+        opts = self.opts
+        actions = [action] if action else ['view','edit','delete']
+        klass = klass if klass else opts.model
+        model_name = klass._meta.model_name
+        return get_objects_for_user(user=request.user, perms=[f'{perm}_{model_name}' for perm in actions], klass=klass, any_perm=True)
+
+    def has_permission(self, request, obj, action):
+        opts = self.opts
+        code_name = f'{action}_{opts.model_name}'
+        if obj:
+            return request.user.has_perm(f'{opts.app_label}.{code_name}', obj)
+        else:
+            return self.get_model_objects(request).exists()
+
+    def has_view_permission(self, request, obj=None):
+        # the method checks if the user has view permission on object
+        return self.has_permission(request, obj, 'view')
+
+    def has_change_permission(self, request, obj=None):
+        # the method checks if the user has change permission on object
+        return self.has_permission(request, obj, 'change')
+
+    def has_delete_permission(self, request, obj=None):
+        # the method checks if the user has delete permission on object
+        return self.has_permission(request, obj, 'delete')
+
 
     def activate_users(self, request, queryset):
         cnt = queryset.filter(is_active=False).update(is_active=True)
@@ -29,8 +71,6 @@ class AccountAdmin(OSMGeoAdmin):
             del actions["activate_users"]
         return actions
 
-    def has_delete_permission(self, request, obj=None):
-        return False
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
@@ -126,25 +166,6 @@ class AccountAdmin(OSMGeoAdmin):
             },
         ),
     )
-
-
-# class ReadOnlyAdminMixin:
-
-#     def has_add_permission(self, request):
-#         return False
-
-#     def has_change_permission(self, request, obj=None):
-
-#         if request.user.has_perm('inventory.change_product'):
-#             return True
-#         else:
-#             return False
-
-#     def has_delete_permission(self, request, obj=None):
-#         return False
-
-#     def has_view_permission(self, request, obj=None):
-#         return True
 
 
 admin.site.register(Account, AccountAdmin)

@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, Group, Permission
 from django.contrib.gis.db import models as geoModels
 from django.core.mail import send_mail
 from django.core.serializers import serialize
@@ -12,6 +12,8 @@ from accounts.manager import UserManager
 
 from django.contrib.gis.geos import Point
 from geopy.geocoders import Nominatim
+
+from django.contrib.contenttypes.models import ContentType
 
 
 class Account(AbstractBaseUser, PermissionsMixin):
@@ -59,24 +61,13 @@ class Account(AbstractBaseUser, PermissionsMixin):
         verbose_name = "Accounts"
         verbose_name_plural = "Accounts"
 
-        # permissions = (
-        #     ('view_account', 'view Account'),
-        # )
-
     def __str__(self):
         """The string method returns the full names of the User instance"""
         return "{}".format(self.get_full_name())
 
     def save(self, *args, **kwargs):
-        # geolocator = Nominatim(user_agent="location")
-        # if self.address is not None:
-        #     g = geolocator.geocode(self.address)
-        #     self.location = Point(g.longitude, g.latitude)
-
+        # the save method can be used to assign a user a group when the user is created
         super().save(*args, **kwargs)
-        # user_group, created = Group.objects.get_or_create(name='users')
-        # staff_group, created = Group.objects.get_or_create(name='staff')
-        # admin_group, created = Group.objects.get_or_create(name='admin')
 
     def get_full_name(self):
         """Returns the first_name plus the last_name, with a space in between."""
@@ -107,9 +98,9 @@ class Account(AbstractBaseUser, PermissionsMixin):
         return serialize("geojson", cls.objects.all())
 
 
-@receiver(pre_save, sender=Account)
-def create_location(sender, instance, *args, **kwargs):
-    geolocator = Nominatim(user_agent="location")
-    if instance.address is not None:
-        g = geolocator.geocode(instance.address)
-        instance.location = Point(g.longitude, g.latitude)
+# @receiver(pre_save, sender=Account)
+# def create_location(sender, instance, *args, **kwargs):
+#     geolocator = Nominatim(user_agent="location")
+#     if instance.address is not None:
+#         g = geolocator.geocode(instance.address)
+#         instance.location = Point(g.longitude, g.latitude)

@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm
+from django.contrib.auth.models import Group, Permission
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core import serializers
@@ -18,6 +19,8 @@ from django.views import View
 from accounts.forms import AccountUpdateForm, LoginForm, RegisterForm
 from accounts.models import Account
 
+from guardian.shortcuts import assign_perm
+
 
 class ActivateAccount(View):
     def get(self, request, uidb64, token, *args, **kwargs):
@@ -31,7 +34,7 @@ class ActivateAccount(View):
             user.is_active = True
             user.save()
             # return redirect('login')
-            login(request, user)
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 
             messages.success(
                 request,
@@ -67,7 +70,15 @@ def registration_view(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
+            staff_group, created = Group.objects.get_or_create(name="staff")
+            admin_group, created = Group.objects.get_or_create(name="admin")
+
+            view_account = Permission.objects.get(codename="view_account")
+            staff_group.permissions.add(view_account)
+
             user.save()
+            staff_group.user_set.add(user)
+            assign_perm('view_account', user, user)
 
             current_site = get_current_site(request)
             subject = "Activate Your MySite Account"
