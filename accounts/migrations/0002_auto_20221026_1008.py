@@ -7,18 +7,30 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0001_initial'),
+        ("accounts", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='account',
-            name='address',
-            field=models.CharField(blank=True, max_length=30, verbose_name='Address'),
+            model_name="account",
+            name="address",
+            field=models.CharField(blank=True, max_length=30, verbose_name="Address"),
         ),
         migrations.AlterField(
-            model_name='account',
-            name='phone',
-            field=models.CharField(blank=True, max_length=15, null=True, unique=True, validators=[django.core.validators.RegexValidator(message='phone number should exactly be in 10 digits', regex='^\\d{10}$')], verbose_name='Phone'),
+            model_name="account",
+            name="phone",
+            field=models.CharField(
+                blank=True,
+                max_length=15,
+                null=True,
+                unique=True,
+                validators=[
+                    django.core.validators.RegexValidator(
+                        message="phone number should exactly be in 10 digits",
+                        regex="^\\d{10}$",
+                    )
+                ],
+                verbose_name="Phone",
+            ),
         ),
     ]

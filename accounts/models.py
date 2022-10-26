@@ -29,7 +29,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
     )
     phone = models.CharField(
         "Phone",
-        max_length=15,
+        max_length=10,
         validators=[phone_regex],
         unique=True,
         blank=True,

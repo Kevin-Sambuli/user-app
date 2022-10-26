@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import (authenticate, login, logout,
-                                 update_session_auth_hash)
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm
 from django.contrib.auth.tokens import default_token_generator
@@ -131,13 +130,7 @@ def profile_view(request, *args, **kwargs):
 
 
 def login_view(request):
-    context ={}
-    from django.contrib.gis.geos import Point
-    from geopy.geocoders import Nominatim
-    geolocator = Nominatim(user_agent="location")
-    g = geolocator.geocode('kitengela')
-    location = Point(g.longitude, g.latitude)
-    print(location)
+    context = {}
 
     user = request.user
     if user.is_authenticated:
@@ -269,7 +262,7 @@ def webMap(request):
     context = {}
     users = Account.objects.all().count()
     print(users)
-    context['data'] = users
+    context["data"] = users
     return render(request, "map/webmap.html", context)
 
 

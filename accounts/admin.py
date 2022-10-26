@@ -127,6 +127,7 @@ class AccountAdmin(OSMGeoAdmin):
         ),
     )
 
+
 # class ReadOnlyAdminMixin:
 
 #     def has_add_permission(self, request):

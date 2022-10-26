@@ -155,8 +155,9 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-# This enables django guardian
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend', # this is default
-    # 'guardian.backends.ObjectPermissionBackend',
-)
+# This activates and hooks django guardian
+# AUTHENTICATION_BACKENDS = (
+#     "django.contrib.auth.backends.ModelBackend",  # this is default
+#     "django.contrib.auth.backends.ModelBackend",
+#     "guardian.backends.ObjectPermissionBackend",
+# )
