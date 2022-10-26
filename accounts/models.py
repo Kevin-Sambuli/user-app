@@ -113,4 +113,3 @@ def create_location(sender, instance, *args, **kwargs):
     if instance.address is not None:
         g = geolocator.geocode(instance.address)
         instance.location = Point(g.longitude, g.latitude)
-
