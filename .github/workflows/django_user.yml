@@ -2,9 +2,9 @@ name: GeoDjango CI
 
 on:
   push:
-    branches: [ "authentication" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "authentication" ]
+    branches: [ "main" ]
 
 jobs:
   build:
