@@ -72,6 +72,11 @@ Open your browser and go to http://127.0.0.1:8000, you will be greeted with a we
 ``` python manage.py createsuperuser ```
 
 
+# Running tests
+## You can run the from the default django unnitest model by running the following command in your terminal
+```python manage.py test```
+
+
 ## Authentication Process
 - In order to test the the application flows fill in the account registration  by clicking the register button on the Navigation bar.
 
