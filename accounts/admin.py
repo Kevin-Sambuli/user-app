@@ -11,6 +11,7 @@ from guardian.shortcuts import get_objects_for_user
 
 # class AccountAdmin(UserAdmin, OSMGeoAdmin):
 class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
+     """ THe Custom admin inherits GuardedModalAdmin to allow objects to have object level permissions  """
     ordering = ["email"]
     add_form = RegisterForm
     form = AccountUpdateForm
@@ -21,11 +22,13 @@ class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
     ]
 
     def has_module_permission(self, request):
+        """ the method checks if the user has permission to a module"""
         if super().has_module_permission(request):
             return True
         return self.get_model_objects(request).exists()
 
     def get_queryset(self, request):
+        """ the returns the queryset of objects the user is able to view"""
         if request.user.is_superuser:
             return super().get_queryset(request)
         data = self.get_model_objects(request)
@@ -44,6 +47,7 @@ class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
         )
 
     def has_permission(self, request, obj, action):
+         """ this is a custom method that returns the permissions the user has  and returns only the objects the user has permissions on"""
         opts = self.opts
         code_name = f"{action}_{opts.model_name}"
         if obj:
@@ -52,18 +56,19 @@ class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
             return self.get_model_objects(request).exists()
 
     def has_view_permission(self, request, obj=None):
-        # the method checks if the user has view permission on object
+        """ the method checks if the user has view permission on object """
         return self.has_permission(request, obj, "view")
 
     def has_change_permission(self, request, obj=None):
-        # the method checks if the user has change permission on object
+        """the method checks if the user has the change permission on any object"""
         return self.has_permission(request, obj, "change")
 
     def has_delete_permission(self, request, obj=None):
-        # the method checks if the user has delete permission on object
+        """the method checks if the user has delete permission on object """
         return self.has_permission(request, obj, "delete")
 
     def activate_users(self, request, queryset):
+        """This method allow staff users or superusers to activate a list of users at once by selecting the objects """
         cnt = queryset.filter(is_active=False).update(is_active=True)
         self.message_user(request, "Activated {} users.".format(cnt))
 
@@ -76,6 +81,9 @@ class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
         return actions
 
     def get_form(self, request, obj=None, **kwargs):
+        """The method overides the get form method in the UserAdmin class to have more control on what the user can access on the admin page.
+            This helps Prevent non-superusers from editing their own permissions or granting other people permissions
+        """
         form = super().get_form(request, obj, **kwargs)
         is_superuser = request.user.is_superuser
         disabled_fields = set()
