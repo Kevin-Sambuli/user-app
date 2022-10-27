@@ -78,7 +78,7 @@ Open your browser and go to http://127.0.0.1:8000, you will be greeted with a we
 
 ## To Run the Tests
 ### In order to run test the for the mode, views, form and urls just use the following command
-The application uses the default django unittest module to run the applications tests.
+### The application uses the default django unittest module to run the applications tests:
     python manage.py test
 
 ## Authentication Process
@@ -88,10 +88,10 @@ The application uses the default django unittest module to run the applications 
 # Walkthrough.
 ## Registration
 1. After Successful registration an email will be sent to your registration email that will prompt you to activate your account
-2. Click the link to activate your account
-3. Your account will be activated and You'll be redirected to the home page as an authenticated user
+2. Click the link in your email account to activate your account
+3. You'll be redirected to the home page as an authenticated user
 
-## Authorized users with object level permission can view their own account account
+## Authorized users with object level permission can view their own account on nthe admin page
 
 ![Screenshot (413)](https://user-images.githubusercontent.com/43718849/198390330-ef45be94-34f8-4da3-bac3-4739c56cf442.png)
 
