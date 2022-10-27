@@ -18,8 +18,8 @@ and display registered users on a leaflet map as point data
 - Python Leaflet package.
 
 
-## Application Preview
-![Screenshot (414)](https://user-images.githubusercontent.com/43718849/198390042-ad6e6811-22a2-42de-82c2-b51f25194705.png)
+## Demo Application Preview
+![Screenshot (419)](https://user-images.githubusercontent.com/43718849/198394828-e8557861-86b6-4575-a9a7-b38507b609f1.png)
 
 
 Main features
@@ -38,8 +38,8 @@ Main features
     
 
 # Local development
-To run this project in your development machine, follow these steps:
-clone the repository by running the following in command Prompt:
+## To run this project in your development machine, follow these steps:
+## clone the repository by running the following in command Prompt:
 
     git clone https://github.com/Kevin-Sambuli/user-app.git
     cd user-app
@@ -60,11 +60,12 @@ clone the repository by running the following in command Prompt:
 
 
 ## If you have PostgreSQL installed you can Create a development database by doing the following:
+### NOTE: Change the Environment variables in the example env file to meet your database credentials:
 
 1. Create a Postgis enabled database to support spatial objects
-2. To Create the tables in the database run
 
-## NOTE: Change the Environment variables in the example env file to meet your database credentials:
+## To Create the tables in the database run
+
     python manage.py migrate
 
 ## If everything is alright, you should be able to start the Django development server:
@@ -102,9 +103,6 @@ Open your browser and go to http://127.0.0.1:8000, you will be greeted with a we
 
 
 ## upcoming development
-### If you are NOT using Makefile
-    cd user-app
-    run the command: docker-compose --build -d --remove-orphans
-    navigate to localhost:8000
-
-
+- Dockerizingg the application witth Docker
+- serving the front end with React
+- Serving the app with Geoserver layer
