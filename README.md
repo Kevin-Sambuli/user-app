@@ -7,8 +7,7 @@ and display registered users on a leaflet map as point data
 https://users-webapp.herokuapp.com/
 
 ## An Image Showing the Application Interface
-
-![Screenshot (414)](https://user-images.githubusercontent.com/43718849/198046412-03b45163-669b-4912-851f-7d7b4cf8eeb8.png)
+![Screenshot (416)](https://user-images.githubusercontent.com/43718849/198350924-19a09891-6d2d-47fd-81bc-8269d530c674.png)
 
 
 Main features
