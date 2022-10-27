@@ -11,7 +11,9 @@
 
 {% block content %}
     <div>
-        <div id="map"></div>
+        <div id="map">
+            <div class="leaflet-control map-coordinate"></div>
+        </div>
     </div>
 
     {% block javascript %}
@@ -25,6 +27,12 @@
     <script>
         var users = new L.featureGroup();
         var geojsonLayer;
+
+        //mouse hover coordinates
+        map.on("mousemove", function (e) {
+            $(".map-coordinate").html("Lat : " + e.latlng.lat + " Lng : " + e.latlng.lng);
+        });
+
 
         function makePopupContent(profile) {
             return ` <div class='userPopup'>

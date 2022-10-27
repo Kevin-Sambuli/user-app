@@ -16,7 +16,7 @@ from django.dispatch import receiver
 from accounts.manager import UserManager
 
 from django.contrib.gis.geos import Point
-from geopy.geocoders import Nominatim
+
 
 from django.contrib.contenttypes.models import ContentType
 

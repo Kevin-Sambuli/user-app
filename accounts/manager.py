@@ -10,9 +10,9 @@ class UserManager(BaseUserManager):
         username,
         first_name,
         last_name,
-        location,
-        address,
-        phone,
+        location=None,
+        address=None,
+        phone=None,
         password=None,
     ):
         if not email:
@@ -23,10 +23,10 @@ class UserManager(BaseUserManager):
             raise ValueError("Provide your first Name")
         if not last_name:
             raise ValueError("Provide your last Name")
-        if not address:
-            raise ValueError(" Please provide your home address")
-        if not phone:
-            raise ValueError("Please provide your telephone number")
+        # if not address:
+        #     raise ValueError(" Please provide your home address")
+        # if not phone:
+        #     raise ValueError("Please provide your telephone number")
 
         email = self.normalize_email(email)
         email = email.lower()
@@ -51,9 +51,6 @@ class UserManager(BaseUserManager):
         first_name,
         last_name,
         username,
-        location,
-        phone,
-        address,
         password=None,
     ):
         user = self.create_user(
@@ -62,9 +59,6 @@ class UserManager(BaseUserManager):
             last_name=last_name,
             username=username,
             password=password,
-            location=location,
-            phone=phone,
-            address=address,
         )
         user.is_admin = True
         user.is_active = True
@@ -72,3 +66,4 @@ class UserManager(BaseUserManager):
         user.is_superuser = True
         user.save(using=self._db)
         return user
+
