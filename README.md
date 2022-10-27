@@ -1,9 +1,24 @@
-# user-app
-the app is used for user registration and display them on a map using leaflet
 # USER_APP
 This is a simple Django application powered also by Geodjango, The Application contains full user authentication
 and display registered users on a leaflet map as point data
 
+
+# A demo application about the project is hosted on heroku
+## click the link to view tye demo
+
+## https://users-webapp.herokuapp.com/
+
+## Dependencies:
+- Geodjango Dependencies (Geos,
+- GDAL, and PROJ4)
+- Spatial Database.
+- psycopg2-binary
+- Python.
+- Django(Geodjango).
+- Python Leaflet package.
+
+
+## Application Preview
 ![Screenshot (414)](https://user-images.githubusercontent.com/43718849/198390042-ad6e6811-22a2-42de-82c2-b51f25194705.png)
 
 
@@ -22,15 +37,6 @@ Main features
 
     
 
-
-Dependencies:
-    - Geodjango Dependencies (Geos, GDAL, and PROJ4)
-    - Spatial Database-PostgreSQL/PostGIS.
-    - psycopg2-binary
-    - Python.
-    - Django(Geodjango).
-    - Javascript Leaflet Library.
-
 # Local development
 To run this project in your development machine, follow these steps:
 clone the repository by running the following in command Prompt:
@@ -45,7 +51,7 @@ cd user-app
 python -m venv venv
 ```
 
-## Activate the virtual environment:
+##On Windows Activate the virtual environment:
 ```
 venv\Scripts\activate
 ```
@@ -73,7 +79,7 @@ Open your browser and go to http://127.0.0.1:8000, you will be greeted with a we
 ## Create a Super User so that you can add several users to the database:
 ``` python manage.py createsuperuser ```
 
-## To Run tThe Tests
+## To Run the Tests
 - In order to run test the for the mode, views, form and urls just use the following command
 The application uses the default django unittest module to run the applications tests
 ``` python manage.py test```
