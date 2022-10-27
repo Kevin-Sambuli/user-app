@@ -11,22 +11,19 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 
-import environ
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# SECURITY WARNING: don't run with debug turned on in production!
-env = environ.Env(DEBUG=(bool, False))
-environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
-SECRET_KEY = env("SECRET_KEY")
-DEBUG = env("DEBUG")
+SECRET_KEY = 'django-insecure-bejnxzbe$j3mi^zv(z6()3=d9)7_kp-o6trkx+74l17aqkpl$_'
+DEBUG = True
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "users-webapp.herokuapp.com"]
 
 # Application definition
 INSTALLED_APPS = [
     "django.contrib.admin",
+    "whitenoise.runserver_nostatic",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -35,26 +32,19 @@ INSTALLED_APPS = [
     "django.contrib.gis",
     "crispy_forms",
     "guardian",
-    "leaflet",
     "accounts",
 ]
 
-# Application definition
-if DEBUG:
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-    EMAIL_HOST_USER = "webgis@geoweb.com"
-    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-else:
-    EMAIL_BACKEND = env("EMAIL_BACKEND")
-    EMAIL_HOST_USER = env("EMAIL_HOST_USER")
-    EMAIL_HOST = env("EMAIL_HOST")
-    EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-    EMAIL_USE_TLS = env("EMAIL_USE_TLS")
-    EMAIL_PORT = env("EMAIL_PORT")
-    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_HOST_USER='sambulikevin@gmail.com'
+EMAIL_HOST_PASSWORD='wimxctiofqgssvuh'
+EMAIL_USE_TLS=True
+EMAIL_PORT=587
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -90,26 +80,15 @@ WSGI_APPLICATION = "WebGIS.wsgi.application"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": env("PG_ENGINE"),
-        "NAME": env("PG_DATABASE_NAME"),
-        "USER": env("POSTGRES_USER"),
-        "PASSWORD": env("POSTGRES_PASS"),
-        "HOST": env("PG_HOST"),
-        "PORT": env("PG_PORT"),
-    }
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'd1mgf60rhvgm51',
+        'USER': 'alhzaleumukbrt',
+        'PASSWORD':'76aa182e0a739d76a137c77d54d3b4c0360f1979dbc92cd839578c91e3c1302c',
+        'HOST': 'ec2-54-147-36-107.compute-1.amazonaws.com',
+        'PORT': 5432,
+    },
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': env("PG_ENGINE"),
-#         'NAME': env("HEROKU_PG_DATABASE_NAME"),
-#         'USER': env("HEROKU_POSTGRES_USER"),
-#         'PASSWORD': env("HEROKU_POSTGRES_PASS"),
-#         'HOST': env("HEROKU_PG_HOST"),
-#         'PORT': env("PG_PORT"),
-#     },
-# }
 
 
 # Password validation
@@ -147,8 +126,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, "staticfiles"),)
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 

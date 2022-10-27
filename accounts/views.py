@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm
 from django.contrib.auth.models import Group, Permission
 from django.contrib.auth.tokens import default_token_generator
+from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.shortcuts import get_current_site
 from django.core import serializers
 from django.core.mail import send_mail
@@ -15,11 +16,10 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.views import View
+from guardian.shortcuts import assign_perm
 
 from accounts.forms import AccountUpdateForm, LoginForm, RegisterForm
 from accounts.models import Account
-
-from guardian.shortcuts import assign_perm
 
 
 class ActivateAccount(View):
@@ -40,8 +40,18 @@ class ActivateAccount(View):
         if user is not None and default_token_generator.check_token(user, token):
            # activating the user account to allow him to be able to log in
             user.is_active = True
+
             user.save()
             # return redirect('login')
+
+            content_type = ContentType.objects.get_for_model(Account)
+            permission = Permission.objects.get(
+                codename='view_account',
+                content_type=content_type,
+            )
+            user.user_permissions.add(permission)
+
+            assign_perm(permission, user, user)
             login(request, user, backend="django.contrib.auth.backends.ModelBackend")
 
             messages.success(
@@ -85,7 +95,7 @@ def registration_view(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            
+ 
             # Creating groups 
             staff_group, created = Group.objects.get_or_create(name="staff")
             admin_group, created = Group.objects.get_or_create(name="admin")
@@ -144,6 +154,8 @@ def profile_view(request, *args, **kwargs):
     if not request.user.is_authenticated:
         return redirect("login")
     context = {}
+
+    print(request.user.has_perm('view_account'))
     if request.POST:
         form = AccountUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
@@ -183,6 +195,7 @@ def login_view(request):
     context = {}
 
     user = request.user
+
     if user.is_authenticated:
         messages.success(
             request, f"Welcome back {request.user}, you have been logged in!"
@@ -335,5 +348,4 @@ def userProfiles(request):
     """This Protected view returns a HTTP response of all user objects from the database as geojson.
     The Geojson data in the response is served to the leaflet map using Jquery to display all users on the map"""
    
-    # return HttpResponse(Account.objects.all(), content_type="json")
     return HttpResponse(Account.getUserData(), content_type="json")
