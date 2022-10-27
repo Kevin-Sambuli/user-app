@@ -4,7 +4,7 @@ and display registered users on a leaflet map as point data
 
 
 # A demo application about the project is hosted on heroku
-## click the link to view tye demo
+## click the link to view the demo
 
 ## https://users-webapp.herokuapp.com/
 
@@ -41,26 +41,23 @@ Main features
 To run this project in your development machine, follow these steps:
 clone the repository by running the following in command Prompt:
 
-```
-git clone https://github.com/Kevin-Sambuli/user-app.git
-cd user-app
-```
+    git clone https://github.com/Kevin-Sambuli/user-app.git
+    cd user-app
+
 
 ## Create a virtual environment to install dependencies in and activate it
-```
-python -m venv venv
-```
 
-##On Windows Activate the virtual environment:
-```
-venv\Scripts\activate
-```
+    python -m venv venv
+
+
+## On Windows Activate the virtual environment:
+    venv\Scripts\activate
+
 
 ## Then install the dependencies:
-```
 
-pip install -r requirements.txt
-```
+    pip install -r requirements.txt
+
 
 ## If you have PostgreSQL installed you can Create a development database by doing the following:
 
@@ -68,25 +65,24 @@ pip install -r requirements.txt
 2. To Create the tables in the database run
 
 ## NOTE: Change the Environment variables in the example env file to meet your database credentials:
-    ```
-    python manage.py migrate ```
+    python manage.py migrate
 
 ## If everything is alright, you should be able to start the Django development server:
-    ``` python manage.py runserver ```
+
+    python manage.py runserver 
 
 Open your browser and go to http://127.0.0.1:8000, you will be greeted with a welcome page.
 
 ## Create a Super User so that you can add several users to the database:
-``` python manage.py createsuperuser ```
+    python manage.py createsuperuser
 
 ## To Run the Tests
-- In order to run test the for the mode, views, form and urls just use the following command
-The application uses the default django unittest module to run the applications tests
-``` python manage.py test```
+### In order to run test the for the mode, views, form and urls just use the following command
+The application uses the default django unittest module to run the applications tests.
+    python manage.py test
 
 ## Authentication Process
 - In order to test the the application flows fill in the account registration  by clicking the register button on the Navigation bar.
-
 
 
 # Walkthrough.
@@ -105,11 +101,10 @@ The application uses the default django unittest module to run the applications 
 
 
 
-## Production
+## upcoming development
 ### If you are NOT using Makefile
-```
-cd user-app
-run the command: docker-compose --build -d --remove-orphans
-navigate to localhost:8000
-```
+    cd user-app
+    run the command: docker-compose --build -d --remove-orphans
+    navigate to localhost:8000
+
 
