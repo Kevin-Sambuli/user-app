@@ -23,6 +23,13 @@ from accounts.models import Account
 
 
 class ActivateAccount(View):
+    """
+    The class view decodes the generated token from the user email during user registration and verifies the token
+    If the token is valid the user instance is activated and allowed to login. 
+    This is guarded by the is_active flag in the user model that is false by default and only activated when the token is validated. 
+    after that the user will be redirected to the home page.
+    This is to prevent users from accessing the system who dont use valid emails during registration.
+    """
     def get(self, request, uidb64, token, *args, **kwargs):
         try:
             uid = force_text(urlsafe_base64_decode(uidb64))
@@ -31,6 +38,7 @@ class ActivateAccount(View):
             user = None
 
         if user is not None and default_token_generator.check_token(user, token):
+           # activating the user account to allow him to be able to log in
             user.is_active = True
 
             user.save()
@@ -71,6 +79,13 @@ class ActivateAccount(View):
 
 
 def registration_view(request):
+    """The registration view is responsible for rendering the user registration page which has registration form
+    The view supports two methods  POST and GET
+    GET method is responsible for rendering the registration page
+    POST method is responsible for sending the data entered in the form to the database
+    
+    The user is assigned to a staff group when he/she is registered successfully to allow them have some permissions
+    """
     user = request.user
     if user.is_authenticated:
         return HttpResponse("You are already authenticated as " + str(user.email))
@@ -80,17 +95,25 @@ def registration_view(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-
-            user.save()
-
+ 
+            # Creating groups 
+            staff_group, created = Group.objects.get_or_create(name="staff")
+            admin_group, created = Group.objects.get_or_create(name="admin")
+            
+            
+            # retrieving the aacound view model permission and assign to a group
             view_account = Permission.objects.get(codename="view_account")
-            edit_account = Permission.objects.get(codename="change_account")
-
-            user.user_permissions.add(view_account)
-            # staff_group.permissions.set([view_account, edit_account])
-
-            assign_perm(view_account, user, user)
-
+            staff_group.permissions.add(view_account)
+            
+            # sending the user instance to the database if the form was valid
+            user.save()
+            
+            """the user is assigned to a staff group when he/she is registered successfully to allow them have some permissions
+            This is handy when control access levels to objects in the database via the admin"""
+            staff_group.user_set.add(user)
+            assign_perm("view_account", user, user)
+            
+            # Sending Success Email to the registered user
             current_site = get_current_site(request)
             subject = "Activate Your MySite Account"
             message = render_to_string(
@@ -117,8 +140,17 @@ def registration_view(request):
         context["registration_form"] = form
     return render(request, "accounts/register.html", context)
 
-
+@login_required
 def profile_view(request, *args, **kwargs):
+    """This is a protected view renderes the user logged in information  and allow them to have an interaction with their data
+    The view also allows the user to edit their accounts
+    
+    The view supports two method POST and GET
+    
+    POST - responsible to send the edited form to the database
+    GET - Renders the profile page for the user
+    
+    """
     if not request.user.is_authenticated:
         return redirect("login")
     context = {}
@@ -140,6 +172,7 @@ def profile_view(request, *args, **kwargs):
             )
             return redirect("home")
     else:
+        # Rendering prefilled user form with their data
         form = AccountUpdateForm(
             initial={
                 "email": request.user.email,
@@ -154,6 +187,11 @@ def profile_view(request, *args, **kwargs):
 
 
 def login_view(request):
+    """The login view is responsible for rendering the user login page which has login form
+    The view supports two methods  POST and GET
+    GET method is responsible for rendering the login page
+    POST method is responsible for sending the data entered in the form to the database for authentication
+    """
     context = {}
 
     user = request.user
@@ -193,6 +231,7 @@ def login_view(request):
 
 @login_required
 def edit_account(request):
+    """The view is responsible for allowing users to update their account"""
     if not request.user.is_authenticated:
         return redirect("login")
 
@@ -222,12 +261,19 @@ def edit_account(request):
 
 
 def password_reset_request(request):
+    """The view renderes a form that allows the user to enter their email incase they have forgotten their password
+    When the form is validated an email is send to the  user to allow them to reset their password by validating the
+    generated token in their email.
+    
+    """
     if request.method == "POST":
         pass_form = PasswordResetForm(request.POST)
         if pass_form.is_valid():
             data = pass_form.cleaned_data["email"]
 
             user_mail = Account.objects.filter(Q(email=data))
+            
+            # checks if the provided email exists in the database
             if user_mail.exists():
                 current_site = get_current_site(request)
                 for user in user_mail:
@@ -243,7 +289,9 @@ def password_reset_request(request):
                         "protocol": "http",
                     }
                     email = render_to_string(email_template_name, parameters)
+                    
                     try:
+                        # sending the success email to the user
                         send_mail(subject, email, "", [user.email], fail_silently=False)
                     except:
                         return HttpResponse("Invali Header")
@@ -257,6 +305,7 @@ def password_reset_request(request):
 
 
 def update_password(request):
+    """The view allows users update their password"""
     context = {}
     if request.POST:
         form = PasswordChangeForm(data=request.POST, instance=request.user.id)
@@ -284,13 +333,19 @@ def logout_view(request):
 
 
 def webMap(request):
+    """The view is renderes the leaflet map page 
+    The view passes the total number of user objects from the database which is shown on the 
+    leaflet legend 
+    """
+    
     context = {}
-    users = Account.objects.all().count()
-    print(users)
+    users = Account.objects.all().count() # getting the total count of users in the database
     context["data"] = users
     return render(request, "map/webmap.html", context)
 
-
+@login_required
 def userProfiles(request):
-    # return HttpResponse(users, content_type="json")
+    """This Protected view returns a HTTP response of all user objects from the database as geojson.
+    The Geojson data in the response is served to the leaflet map using Jquery to display all users on the map"""
+   
     return HttpResponse(Account.getUserData(), content_type="json")

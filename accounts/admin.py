@@ -11,6 +11,7 @@ from guardian.shortcuts import get_objects_for_user
 
 # class AccountAdmin(UserAdmin, OSMGeoAdmin):
 class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
+     """ THe Custom admin inherits GuardedModalAdmin to allow objects to have object level permissions  """
     ordering = ["email"]
     add_form = RegisterForm
     form = AccountUpdateForm
@@ -22,6 +23,9 @@ class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
 
     def has_module_permission(self, request):
         if super(AccountAdmin, self).has_module_permission(request):
+        """ the method checks if the user has permission to a module"""
+        if super().has_module_permission(request):
+
             return True
 
     def get_queryset(self, request):
@@ -48,6 +52,7 @@ class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
         return self.has_permission(request, obj, "delete")
 
     def has_change_permission(self, request, obj=None):
+        """ the returns the queryset of objects the user is able to view"""
         if request.user.is_superuser:
             return self.has_permission(request, obj, 'edit')
         data = self.get_model_objects(request)
@@ -66,6 +71,7 @@ class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
 
 
     def activate_users(self, request, queryset):
+        """This method allow staff users or superusers to activate a list of users at once by selecting the objects """
         cnt = queryset.filter(is_active=False).update(is_active=True)
         self.message_user(request, "Activated {} users.".format(cnt))
 
@@ -78,6 +84,9 @@ class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
         return actions
 
     def get_form(self, request, obj=None, **kwargs):
+        """The method overides the get form method in the UserAdmin class to have more control on what the user can access on the admin page.
+            This helps Prevent non-superusers from editing their own permissions or granting other people permissions
+        """
         form = super().get_form(request, obj, **kwargs)
         is_superuser = request.user.is_superuser
         disabled_fields = set()

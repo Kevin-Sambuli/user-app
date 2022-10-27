@@ -3,6 +3,13 @@ This is a simple Django application powered also by Geodjango, The Application c
 and display registered users on a leaflet map as point data
 
 
+## A demo Application hosted on Heroku
+
+https://users-webapp.herokuapp.com/
+
+## An Image Showing the Application Interface
+![Screenshot (416)](https://user-images.githubusercontent.com/43718849/198350924-19a09891-6d2d-47fd-81bc-8269d530c674.png)
+
 
 
 Main features
@@ -61,15 +68,23 @@ pip install -r requirements.txt
 
 ## NOTE: Change the Environment variables in the example env file to meet your database credentials:
     ```
-    python manage.py migrate ```
+    python manage.py migrate
+    ```
 
 ## If everything is alright, you should be able to start the Django development server:
-    ``` python manage.py runserver ```
+    ``` 
+    python manage.py runserver 
+    ```
 
 Open your browser and go to http://127.0.0.1:8000, you will be greeted with a welcome page.
 
 ## Create a Super User so that you can add several users to the database:
 ``` python manage.py createsuperuser ```
+
+
+# Running tests
+## You can run the from the default django unnitest model by running the following command in your terminal
+```python manage.py test```
 
 
 ## Authentication Process
@@ -81,16 +96,6 @@ Open your browser and go to http://127.0.0.1:8000, you will be greeted with a we
 2. Click the link to activate your account
 3. Your account will be activated and You'll be redirected to the home page as an authenticated user
 
-## Account settings
-👋 This simple map is Built with GeoDjango,Docker,NGINX,React and Leaflet.
+# Access Restriction to Objects
 
-
-
-## Production
-### If you are NOT using Makefile
-```
-cd user-app
-run the command: docker-compose --build -d --remove-orphans
-navigate to localhost:8000
-```
-
+## A user can have access right to his or her own information
