@@ -23,9 +23,7 @@ class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
 
      def has_module_permission(self, request):
         if super(AccountAdmin, self).has_module_permission(request):
-        """ the method checks if the user has permission to a module"""
-        if super().has_module_permission(request):
-
+          """ the method checks if the user has permission to a module"""
             return True
 
      def get_queryset(self, request):
@@ -36,15 +34,16 @@ class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
         #     return data
 
      def has_permission(self, request, obj, action):
-        opts = self.opts
-        code_name = f'{action}_{opts.model_name}'
-        if obj:
-            return request.user.has_perm(f'{opts.app_label}.{code_name}', obj)
-        else:
-            return True
+          """checks if a user has modal level permision to"""
+          opts = self.opts
+          code_name = f'{action}_{opts.model_name}'
+          if obj:
+               return request.user.has_perm(f'{opts.app_label}.{code_name}', obj)
+          else:
+               return True
 
      def has_view_permission(self, request, obj=None):
-        return self.has_permission(request, obj, 'view')
+          return self.has_permission(request, obj, 'view')
 
 
      def has_delete_permission(self, request, obj=None):
