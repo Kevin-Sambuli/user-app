@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7, 3.8]
+        python-version: [3.7]
 
     steps:
     - uses: actions/checkout@v3
@@ -24,7 +24,7 @@ jobs:
     - name: Install GIS system packages
       run: |
         sudo apt-get update
-        sudo apt-get install binutils libproj-dev gdal-bin python-gdal python3-gdal -y
+        sudo apt-get install binutils libproj-dev gdal-bin python3-gdal -y
         sudo apt-get install geopandas Shapely geopy pyproj Fiona sqlalchemy GeoAlchemy2
         
     - name: Install App Dependencies
