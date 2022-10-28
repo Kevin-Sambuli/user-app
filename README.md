@@ -9,9 +9,8 @@ and display registered users on a leaflet map as point data
 ## https://users-webapp.herokuapp.com/
 
 ## Dependencies:
-- Geodjango Dependencies (Geos,
-- GDAL, and PROJ4)
-- Spatial Database.
+- Geodjango Dependencies (Geos, GDAL, and PROJ4)
+- Spatial Database. (postgis)
 - psycopg2-binary
 - Python.
 - Django(Geodjango).
