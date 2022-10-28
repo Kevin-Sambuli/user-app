@@ -17,25 +17,25 @@ class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
      form = AccountUpdateForm
      model = Account
 
-    actions = [
+     actions = [
         "activate_users",
     ]
 
-    def has_module_permission(self, request):
+     def has_module_permission(self, request):
         if super(AccountAdmin, self).has_module_permission(request):
         """ the method checks if the user has permission to a module"""
         if super().has_module_permission(request):
 
             return True
 
-    def get_queryset(self, request):
+     def get_queryset(self, request):
         # if request.user.is_superuser:
         return super(AccountAdmin, self).get_queryset(request)
         # if request.user.is_active and request.user.is_staff:
         #     data= self.get_model_objects(request)
         #     return data
 
-    def has_permission(self, request, obj, action):
+     def has_permission(self, request, obj, action):
         opts = self.opts
         code_name = f'{action}_{opts.model_name}'
         if obj:
@@ -43,22 +43,22 @@ class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
         else:
             return True
 
-    def has_view_permission(self, request, obj=None):
+     def has_view_permission(self, request, obj=None):
         return self.has_permission(request, obj, 'view')
 
 
-    def has_delete_permission(self, request, obj=None):
+     def has_delete_permission(self, request, obj=None):
         # the method checks if the user has delete permission on object
         return self.has_permission(request, obj, "delete")
 
-    def has_change_permission(self, request, obj=None):
+     def has_change_permission(self, request, obj=None):
         """ the returns the queryset of objects the user is able to view"""
         if request.user.is_superuser:
             return self.has_permission(request, obj, 'edit')
         data = self.get_model_objects(request)
         return data
 
-    def get_model_objects(self, request, action=None, klass=None):
+     def get_model_objects(self, request, action=None, klass=None):
         opts = self.opts
         actions = [action] if action else ["view", "edit", "delete"]
         klass = klass if klass else opts.model
@@ -70,20 +70,20 @@ class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
         )
 
 
-    def activate_users(self, request, queryset):
+     def activate_users(self, request, queryset):
         """This method allow staff users or superusers to activate a list of users at once by selecting the objects """
         cnt = queryset.filter(is_active=False).update(is_active=True)
         self.message_user(request, "Activated {} users.".format(cnt))
 
-    activate_users.short_description = "Activate Users"
+     activate_users.short_description = "Activate Users"
 
-    def get_actions(self, request):
+     def get_actions(self, request):
         actions = super().get_actions(request)
         if not request.user.has_perm("auth.change_user"):
             del actions["activate_users"]
         return actions
 
-    def get_form(self, request, obj=None, **kwargs):
+     def get_form(self, request, obj=None, **kwargs):
         """The method overides the get form method in the UserAdmin class to have more control on what the user can access on the admin page.
             This helps Prevent non-superusers from editing their own permissions or granting other people permissions
         """
@@ -108,7 +108,7 @@ class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
 
         return form
 
-    list_display = (
+     list_display = (
         "email",
         "username",
         "date_joined",
@@ -116,17 +116,17 @@ class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
         "is_active",
         "is_admin",
         "is_staff",
-    )
-    search_fields = ("email", "username")
-    readonly_fields = (
+     )
+     search_fields = ("email", "username")
+     readonly_fields = (
         "date_joined",
         "last_login",
-    )
-    list_display_links = ("email",)
-    filter_horizontal = ()
-    list_per_page = 10
-    list_filter = ("is_staff", "is_admin", "is_superuser", "is_active")
-    fieldsets = (
+     )
+     list_display_links = ("email",)
+     filter_horizontal = ()
+     list_per_page = 10
+     list_filter = ("is_staff", "is_admin", "is_superuser", "is_active")
+     fieldsets = (
         (
             "Login Credentials",
             {
@@ -162,9 +162,9 @@ class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
                 )
             },
         ),
-    )
+     )
 
-    add_fieldsets = (
+     add_fieldsets = (
         (
             None,
             {
@@ -179,7 +179,7 @@ class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
                 ),
             },
         ),
-    )
+     )
 
 
 admin.site.register(Account, AccountAdmin)
