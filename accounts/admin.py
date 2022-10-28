@@ -23,7 +23,7 @@ class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
 
      def has_module_permission(self, request):
         if super(AccountAdmin, self).has_module_permission(request):
-          """ the method checks if the user has permission to a module"""
+            """ the method checks if the user has permission to a module"""
             return True
 
      def get_queryset(self, request):
