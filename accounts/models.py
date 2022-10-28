@@ -29,8 +29,8 @@ class Account(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField("First Name", max_length=30)
     last_name = models.CharField("Last Name", max_length=30)
     email = models.EmailField("Email", blank=False, max_length=100, unique=True)
-    username = models.CharField("Username", max_length=30, unique=True)
-    address = models.CharField("Address", max_length=30, blank=True)
+    username = models.CharField("Username", max_length=30, unique=True, blank=True, null=True)
+    address = models.CharField("Address", max_length=30, blank=True, null=True)
     phone_regex = RegexValidator(
         regex=r"^\d{10}$", message="phone number should exactly be in 10 digits"
     )
