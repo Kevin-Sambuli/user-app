@@ -25,7 +25,6 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install binutils libproj-dev gdal-bin python3-gdal -y
-        sudo apt-get install geopandas Shapely geopy pyproj Fiona sqlalchemy GeoAlchemy2
         
     - name: Install App Dependencies
       run: |
