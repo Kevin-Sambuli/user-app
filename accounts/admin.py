@@ -12,7 +12,7 @@ from guardian.shortcuts import get_objects_for_user
 # class AccountAdmin(UserAdmin, OSMGeoAdmin):
 class AccountAdmin(GuardedModelAdmin, OSMGeoAdmin):
      """ THe Custom admin inherits GuardedModalAdmin to allow objects to have object level permissions  """
-    ordering = ["email"]
+    #ordering = ["email"]
     add_form = RegisterForm
     form = AccountUpdateForm
     model = Account
